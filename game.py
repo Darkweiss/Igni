@@ -36,11 +36,12 @@ class game:
                             self.line = False
                             print(self.line)
             self.display.fill((0,0,0))             
-            print(self.line)
+            #print(self.line)
             if self.line == True:
                 pygame.draw.line(self.display, (255, 0, 0), self.line_star, self.line_end,10)
                 #print('here')
             #print(self.line)
+            self.player.update((0,0))
             self.player.render(self.display)
             self.screen.blit(self.display,(0,0))
             pygame.display.update() 
