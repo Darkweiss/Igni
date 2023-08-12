@@ -12,6 +12,7 @@ class player:
         self.resolution = game.resolution
         self.bounces = 100
         self.charges = 1
+        self.pos_history = []
     def render(self,surf):
         pygame.draw.rect(surf,(0,255,0),self.rect())
     def update(self,tilemap,movement=(0,0)):        
@@ -25,11 +26,11 @@ class player:
                 if self.frame_movement[0] > 0:
                     entity_rect.right = rect.left
                     self.collisions['right'] = True
-                    self.velocity[0] = 0
+                    self.velocity[0] = -self.velocity[0]*0.5
                 if self.frame_movement[0] < 0:
                     entity_rect.left = rect.right
                     self.collisions['left'] = True
-                    self.velocity[0] = 0
+                    self.velocity[0] = -self.velocity[0]*0.5
                 self.pos[0] = entity_rect.x
         
         self.pos[1] += self.frame_movement[1]
@@ -49,6 +50,10 @@ class player:
         if self.pos[0] + self.size[0]>self.resolution[0]:
             self.velocity[0] = -self.velocity[0]
         
+        self.pos_history.append(self.rect().center)
+        if len(self.pos_history)>10:
+            self.pos_history.pop(0)
+        
         self.velocity[1] = min(5,self.velocity[1] + 0.1)
                 
         if self.collisions['down'] or self.collisions['up']:
@@ -58,9 +63,9 @@ class player:
             self.jumps = 1
         if self.collisions['down']:
             if self.velocity[0] >0:
-                self.velocity[0] = max(self.velocity[0] - 0.5,0)
+                self.velocity[0] = max(self.velocity[0] - 1.2,0)
             else:
-                self.velocity[0] = min(self.velocity[0] + 0.5,0)
+                self.velocity[0] = min(self.velocity[0] + 1.2,0)
     def rect(self):
         return  pygame.Rect(self.pos[0],self.pos[1],self.size[0],self.size[1])
     def jump_up(self):
