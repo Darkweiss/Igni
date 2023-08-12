@@ -41,7 +41,7 @@ class Platform:
         vec_norm = [(pt2x-midpointx), ((pt2x*bnc_slope+interc)-midpointy)]
         vec_norm = vec_norm/np.linalg.norm(vec_norm)
         vec_pl =  (player.velocity/np.linalg.norm(player.velocity))
-        pygame.draw.line(surf, (255, 255, 0), player.rect().center, (player.rect().center[0]+int(vec_pl[0]),player.rect().center[1]+int(vec_pl[1])),10)
+        #pygame.draw.line(surf, (255, 255, 0), player.rect().center, (player.rect().center[0]+int(vec_pl[0]),player.rect().center[1]+int(vec_pl[1])),10)
         u = (np.dot(vec_pl,vec_norm)/np.dot(vec_norm,vec_norm)*vec_norm)
         if (np.dot(vec_pl,vec_norm))<=0:
             w = vec_norm-u
@@ -50,7 +50,7 @@ class Platform:
         
         print (np.linalg.norm(vec_norm))
         new_vel = (w+u)*self.coeff
-        pygame.draw.line(surf, (255, 255, 0), player.rect().center, (player.rect().center[0]+int(vec_pl[0]),player.rect().center[1]+int(vec_pl[1])),10)
+        #pygame.draw.line(surf, (255, 255, 0), player.rect().center, (player.rect().center[0]+int(vec_pl[0]),player.rect().center[1]+int(vec_pl[1])),10)
         player.velocity[0] = new_vel[0]
         player.velocity[1] = new_vel[1]
         player.bounces -= 1
