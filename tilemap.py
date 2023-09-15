@@ -12,8 +12,11 @@ AUTOTILE_MAP = {
     tuple(sorted([(1, 0), (0, -1), (0, 1)])): 7,
     tuple(sorted([(1, 0), (-1, 0), (0, 1), (0, -1)])): 8,
 }
+NEIGHBOR_OFFSET = []
+for i_x in range(-5,5):
+    for i_y in range(-5,5):
+        NEIGHBOR_OFFSET.append((i_x,i_y))
 
-NEIGHBOR_OFFSET = [(-1,0),(-1,-1),(-1,1),(1,0),(1,-1),(1,1),(0,0),(0,-1),(0,1)]
 PHYSICS_TILES = {'Fire'}
 AUTOTILE_TYPES = {}
 class Tilemap:
@@ -61,11 +64,11 @@ class Tilemap:
         self.tilemap = map_data['tilemap']
         self.tile_size = map_data['tile_size']
         self.offgrid_tiles = map_data['offgrid']
-    def physics_rects_around(self,pos,offset):
+    def physics_rects_around(self,pos):
         rects = []
         for tile in self.tiles_around(pos):
             if tile['type'] in PHYSICS_TILES:
-                rects.append(pygame.Rect(tile['pos'][0]*self.tile_size, tile['pos'][1]*self.tile_size - offset,self.tile_size,self.tile_size))
+                rects.append(pygame.Rect(tile['pos'][0]*self.tile_size, tile['pos'][1]*self.tile_size,self.tile_size,self.tile_size))
         return rects
     
     def autotile(self):

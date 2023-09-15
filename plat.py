@@ -1,8 +1,10 @@
 import pygame
 import numpy as np
+import math
 class Platform:
     def __init__(self,coeff):
         self.coeff = coeff
+        self.charges = 1
     def draw(self,surf,start,ending):
         self.start = start
         self.ending = ending
@@ -29,16 +31,22 @@ class Platform:
             slope = (pt2y-pt1y)/0.0001
         else:
             slope = (pt2y-pt1y)/(pt2x-pt1x)
-        
         if slope==0:
             bnc_slope = 0
         else:                
             bnc_slope = -1/slope
         interc = midpointy - bnc_slope*midpointx
-        #need to check if the player is contacting the line from one side or the other 
-        #top = pygame.draw.line(game.display, (0, 255, 0), (midpointx,midpointy), (pt2x,pt2x*bnc_slope+interc),1)
-        #bottom = pygame.draw.line(game.display, (0, 255, 0), (midpointx,midpointy), (pt2x,pt2x*bnc_slope+interc),1)
-        vec_norm = [(pt2x-midpointx), ((pt2x*bnc_slope+interc)-midpointy)]
+        
+        #this is in because if the norm is 0 it crashes
+        #if ((pt2x*bnc_slope+interc)-midpointy)==0:
+        #    inpty = 0.001
+        #else:
+        #    inpty = ((pt2x*bnc_slope+interc)-midpointy)
+        #if (pt2x-midpointx) ==0:
+        #    inptx = 0.001
+        #else:
+        #    inptx = pt2x-midpointx
+        vec_norm = [pt2x-midpointx, (pt2x*bnc_slope+interc)-midpointy]
         vec_norm = vec_norm/np.linalg.norm(vec_norm)
         vec_pl =  (player.velocity/np.linalg.norm(player.velocity))
         #pygame.draw.line(surf, (255, 255, 0), player.rect().center, (player.rect().center[0]+int(vec_pl[0]),player.rect().center[1]+int(vec_pl[1])),10)
@@ -46,9 +54,7 @@ class Platform:
         if (np.dot(vec_pl,vec_norm))<=0:
             w = vec_norm-u
         else:
-            w = -vec_norm-u
-        
-        print (np.linalg.norm(vec_norm))
+            w = -vec_norm-u    
         new_vel = (w+u)*self.coeff
         #pygame.draw.line(surf, (255, 255, 0), player.rect().center, (player.rect().center[0]+int(vec_pl[0]),player.rect().center[1]+int(vec_pl[1])),10)
         player.velocity[0] = new_vel[0]
