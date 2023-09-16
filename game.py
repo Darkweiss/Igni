@@ -24,11 +24,13 @@ class game:
         self.camera = 0
         self.assets = {
         'Fire': load_images('Tiles/FireTiles'),
-        'Igni/idle': Animation(load_images('Igni/Idle'),img_dur=30,loop=True)
+        'Dark' :load_images('Tiles/DarkCastleTiles'),
+        'Igni/idle': Animation(load_images('Igni/Idle'),img_dur=30,loop=True),
+        
         }
         self.tilemap = Tilemap(self,tile_size=16)
         self.tilemap.load('map.json')
-        self.platform_bounce = Platform(10)
+        self.platform_bounce = Platform(5)
         self.offset = 0
     def run(self):
         while True:

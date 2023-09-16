@@ -20,6 +20,7 @@ class editor:
         
         self.assets = {
             'Fire': load_images('Tiles/FireTiles'),
+            'Dark': load_images('Tiles/DarkCastleTiles')
         }
         
         self.collision_area = pygame.Rect(50,50,300,50)
